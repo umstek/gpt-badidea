@@ -52,6 +52,9 @@ ${(error as Error).message}`,
       }
       gptResponse = await chat(history, gptFunctionDescriptors);
       console.log(gptResponse);
+    } else if (gptResponse.finish_reason === "stop") {
+      const userQuery = await getUserInput("Enter command: ");
+      history.push({ role: "user", name: "user", content: userQuery });
     } else {
       // TODO
       console.log("Unknown finish reason:", gptResponse.finish_reason);

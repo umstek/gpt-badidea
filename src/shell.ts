@@ -11,11 +11,6 @@ function getSession() {
     });
   }
 
-  session.on("close", () => {
-    console.log("Shell session closed");
-    session = undefined;
-  });
-
   return session;
 }
 
@@ -32,12 +27,26 @@ async function shell(command: string): Promise<string> {
   s.stdin?.end();
 
   return new Promise<string>((resolve, reject) => {
+    function cleanup() {
+      s.stdout?.removeAllListeners();
+      s.stderr?.removeAllListeners();
+      s.removeAllListeners();
+    }
+
+    s.on("close", () => {
+      resolve("");
+      cleanup();
+      session = undefined;
+    });
+
     s.stdout?.on("data", (data) => {
       resolve(data.toString());
+      cleanup();
     });
 
     s.stderr?.on("data", (data) => {
       reject(new Error(data.toString()));
+      cleanup();
     });
   });
 }

@@ -7,6 +7,8 @@ import config from "./config.js";
 import shellOriginal from "./shell.js";
 import getUserInputOriginal from "./user-io.js";
 
+// Descriptions are important, they are how GPT knows what the functions do.
+
 const shellSchema = z
   .function()
   .args(z.object({ command: z.string() }))
@@ -17,7 +19,7 @@ const shellSchema = z
 
 type Shell = z.infer<typeof shellSchema>;
 
-const shell: Shell = ({ command }) => {
+const shell: Shell = async ({ command }) => {
   return shellOriginal(command);
 };
 
@@ -41,7 +43,7 @@ const unsafeEvalSchema = z
 
 type UnsafeEval = z.infer<typeof unsafeEvalSchema>;
 
-const unsafeEval: UnsafeEval = ({ code }) => {
+const unsafeEval: UnsafeEval = async ({ code }) => {
   return eval(code);
 };
 

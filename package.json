@@ -1,8 +1,8 @@
 {
-  "name": "chatgpt-experiments",
-  "version": "0.1.0",
+  "name": "gpt-badidea",
+  "version": "0.1.1",
   "description": "",
-  "main": "index.js",
+  "main": "src/main.ts",
   "type": "module",
   "scripts": {
     "start": "node --loader ts-node/esm src/main.ts",
@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.4.10",
     "eslint": "^8.47.0",
