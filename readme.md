@@ -13,4 +13,4 @@ A system-wide copilot experiment.
 .
 
 > [!NOTE]  
-> This is a weekend project and in no way complete, bug-free, or secure.
+> This is a weekend project and in no way complete, bug-free, or secure. Use at your own risk.
