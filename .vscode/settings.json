@@ -4,6 +4,7 @@
     "openai"
   ],
   "conventionalCommits.scopes": [
-    "project"
+    "project",
+    "shell"
   ]
 }

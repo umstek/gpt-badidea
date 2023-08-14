@@ -1,4 +1,5 @@
 import { ChildProcess, spawn } from "node:child_process";
+import { nanoid } from "nanoid";
 
 import config from "./config.js";
 
@@ -9,6 +10,8 @@ function getSession() {
     session = spawn(config.SHELL_PATH, {
       stdio: ["pipe", "pipe", "pipe"],
     });
+
+    session.stdin?.write("export GIT_TERMINAL_PROMPT=0");
   }
 
   return session;
@@ -22,33 +25,36 @@ function getSession() {
  */
 async function shell(command: string): Promise<string> {
   const s = getSession();
+  const cid = `--${nanoid()}--`;
 
-  s.stdin?.write(`${command}\n`);
-  s.stdin?.end();
+  const resultPromise = new Promise<string>((resolve, reject) => {
+    let response = "";
 
-  return new Promise<string>((resolve, reject) => {
-    function cleanup() {
-      s.stdout?.removeAllListeners();
-      s.stderr?.removeAllListeners();
-      s.removeAllListeners();
-    }
+    const handleData = (data: any) => {
+      response += data.toString();
 
-    s.on("close", () => {
-      resolve("");
-      cleanup();
-      session = undefined;
-    });
+      if (response.includes(cid)) {
+        s.stdout?.off("data", handleData);
+        s.stderr?.off("data", handleError);
+        resolve(response.replace(cid, "").trim());
+      }
+    };
 
-    s.stdout?.on("data", (data) => {
-      resolve(data.toString());
-      cleanup();
-    });
-
-    s.stderr?.on("data", (data) => {
+    const handleError = (data: any) => {
+      s.stdout?.off("data", handleData);
+      s.stderr?.off("data", handleError);
       reject(new Error(data.toString()));
-      cleanup();
-    });
+    };
+
+    s.stdout?.on("data", handleData);
+    s.stderr?.on("data", handleError);
   });
+
+  s.stdin?.write(`${command} ; echo "${cid}"\n`);
+  return resultPromise;
 }
 
 export default shell;
+
+export const PROMPT_SHELL_STATE =
+  "State of the shell doesn't apply to other functions.";

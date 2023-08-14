@@ -6,10 +6,12 @@ import {
   PROMPT_ENFORCE_FUNCTIONS,
 } from "./functions.js";
 import config from "./config.js";
+import { PROMPT_SHELL_STATE } from "./shell.js";
 
 const SYSTEM_BASE_PROMPT = [
   config.OPENAI_CHAT_BASE_PROMPT,
   PROMPT_ENFORCE_FUNCTIONS,
+  PROMPT_SHELL_STATE,
 ];
 
 async function main() {

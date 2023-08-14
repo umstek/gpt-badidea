@@ -14,7 +14,7 @@ const shellSchema = z
   .args(z.object({ command: z.string() }))
   .returns(z.promise(z.string()))
   .describe(
-    `Execute any ${config.SHELL_TYPE} command in a stateful shell and get the response`
+    `Execute any ${config.SHELL_TYPE} command in a stateful shell and get the response. Must wrap your command in {"command": "<command>"} json format and make sure they won't wait for user input.`
   );
 
 type Shell = z.infer<typeof shellSchema>;
