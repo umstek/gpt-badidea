@@ -27,7 +27,7 @@ const getUserInputSchema = z
   .function()
   .args(z.object({ question: z.string() }))
   .returns(z.promise(z.string()))
-  .describe("Ask a question from the user");
+  .describe("Talk to the user or get user input.");
 
 type GetUserInput = z.infer<typeof getUserInputSchema>;
 

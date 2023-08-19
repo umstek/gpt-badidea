@@ -11,7 +11,7 @@ function getSession() {
       stdio: ["pipe", "pipe", "pipe"],
     });
 
-    session.stdin?.write("export GIT_TERMINAL_PROMPT=0");
+    session.stdin?.write("export GIT_TERMINAL_PROMPT=0\n");
   }
 
   return session;

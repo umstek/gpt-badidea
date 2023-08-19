@@ -17,18 +17,18 @@ const SYSTEM_BASE_PROMPT = [
 async function main() {
   const history: Parameters<typeof chat>[0] = [];
 
-  const systemQuery = SYSTEM_BASE_PROMPT.join("\n");
-  history.push({ role: "system", name: "system", content: systemQuery });
+  const systemQuery = SYSTEM_BASE_PROMPT.join(" ");
+  history.push({ role: "system", /*name: "system",*/ content: systemQuery });
 
   const userQuery = await getUserInput("Enter command: ");
-  history.push({ role: "user", name: "user", content: userQuery });
+  history.push({ role: "user", /*name: "user",*/ content: userQuery });
 
   let gptResponse = await chat(history, gptFunctionDescriptors);
-  console.log(gptResponse);
   while (
     gptResponse?.message &&
     !["stop", "length", ""].includes(gptResponse.finish_reason || "")
   ) {
+    console.log(">>> ", gptResponse.message.content);
     history.push(gptResponse.message);
 
     if (gptResponse.finish_reason === "function_call") {
@@ -47,16 +47,16 @@ ${result}`,
         console.error(error);
         history.push({
           role: "system",
-          name: "system",
+          // name: "system",
           content: `Failed to execute function: 
 ${(error as Error).message}`,
         });
       }
       gptResponse = await chat(history, gptFunctionDescriptors);
-      console.log(gptResponse);
     } else if (gptResponse.finish_reason === "stop") {
       const userQuery = await getUserInput("Enter command: ");
       history.push({ role: "user", name: "user", content: userQuery });
+      gptResponse = await chat(history, gptFunctionDescriptors);
     } else {
       // TODO
       console.log("Unknown finish reason:", gptResponse.finish_reason);

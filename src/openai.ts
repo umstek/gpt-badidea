@@ -1,3 +1,4 @@
+import { setTimeout } from "node:timers/promises";
 import {
   ChatCompletionFunctions,
   ChatCompletionRequestMessage,
@@ -8,6 +9,11 @@ import {
 } from "openai";
 
 import config from "./config.js";
+import parentLogger from "./logging.js";
+
+const logger = parentLogger.child({
+  component: "openai",
+});
 
 const configuration = new Configuration({
   apiKey: config.OPENAI_API_KEY,
@@ -29,13 +35,28 @@ export const chat = async (
   )[] = [],
   functions: ChatCompletionFunctions[] | undefined = undefined
 ): Promise<CreateChatCompletionResponseChoicesInner> => {
-  console.debug("chat", history);
+  logger.debug({ history, functions });
 
-  const completion = await openai.createChatCompletion({
-    model: config.OPENAI_CHAT_MODEL,
-    messages: history,
-    functions,
-  });
+  let retries = config.OPENAI_NUM_RETRIES;
+  while (retries--) {
+    try {
+      const response = await openai.createChatCompletion({
+        model: config.OPENAI_CHAT_MODEL,
+        messages: history,
+        functions,
+      });
 
-  return completion.data.choices[0];
+      logger.debug({ completion: response.data.choices[0] });
+      return response.data.choices[0];
+    } catch (error: any) {
+      logger.warn({
+        api: { status: error.response.status, data: error.response.data },
+      });
+      logger.debug({ error });
+      await setTimeout(2500);
+    }
+  }
+
+  logger.fatal("Failed to get response from OpenAI.");
+  process.exit(1);
 };

@@ -325,3 +325,6 @@ $RECYCLE.BIN/
 
 data/*
 !data/.gitkeep
+/test-results/
+/playwright-report/
+/playwright/.cache/
