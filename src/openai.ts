@@ -26,7 +26,7 @@ export const chat = async (
   )[] = [],
   functions:
     | OpenAI.Chat.CompletionCreateParams.Function[]
-    | undefined = undefined
+    | undefined = undefined,
 ): Promise<OpenAI.Chat.ChatCompletion.Choice> => {
   logger.debug({ history, functions });
 

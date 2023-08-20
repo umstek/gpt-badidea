@@ -55,6 +55,3 @@ async function shell(command: string): Promise<string> {
 }
 
 export default shell;
-
-export const PROMPT_SHELL_STATE =
-  "State of the shell doesn't apply to other functions.";

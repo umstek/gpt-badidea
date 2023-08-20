@@ -33,12 +33,12 @@ like AutoGPT or AgentGPT to circumvent the limitations using popular workarounds
 written in TypeScript (because everything I see is python).
 
 > [!WARNING]
-> This is a fully automated mode of GPT and may cost you a lot.  
+> This is a fully automated mode of GPT and may cost you a lot.
 
 .
 
 > [!WARNING]
-> This will give GPT full (almost) access to your computer including file read/write, shell commands, and arbitrary code execution.  
+> This will give GPT full (almost) access to your computer including file read/write, shell commands, and arbitrary code execution.
 
 .
 
