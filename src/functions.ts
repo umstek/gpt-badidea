@@ -25,14 +25,16 @@ const shell: Shell = async ({ command }) => {
 
 const getUserInputSchema = z
   .function()
-  .args(z.object({ question: z.string() }))
-  .returns(z.promise(z.string()))
-  .describe("Talk to the user or get user input.");
+  .args(z.object({ message: z.string(), name: z.string(), type: z.string() }))
+  .returns(z.promise(z.any()))
+  .describe(
+    "Get user input. Uses enquirer under the hood so you can use all input types."
+  );
 
 type GetUserInput = z.infer<typeof getUserInputSchema>;
 
-const getUserInput: GetUserInput = async ({ question }) => {
-  return getUserInputOriginal(question);
+const getUserInput: GetUserInput = async (prompt) => {
+  return getUserInputOriginal(prompt);
 };
 
 const unsafeEvalSchema = z

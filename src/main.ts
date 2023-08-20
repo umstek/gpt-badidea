@@ -20,7 +20,11 @@ async function main() {
   const systemQuery = SYSTEM_BASE_PROMPT.join(" ");
   history.push({ role: "system", /*name: "system",*/ content: systemQuery });
 
-  const userQuery = await getUserInput("Enter command: ");
+  const { userQuery } = (await getUserInput({
+    message: "Enter command: ",
+    name: "userQuery",
+    type: "input",
+  })) as any;
   history.push({ role: "user", /*name: "user",*/ content: userQuery });
 
   let gptResponse = await chat(history, gptFunctionDescriptors);
@@ -54,7 +58,11 @@ ${(error as Error).message}`,
       }
       gptResponse = await chat(history, gptFunctionDescriptors);
     } else if (gptResponse.finish_reason === "stop") {
-      const userQuery = await getUserInput("Enter command: ");
+      const userQuery = (await getUserInput({
+        message: "Enter command: ",
+        name: "userQuery",
+        type: "input",
+      })) as any;
       history.push({ role: "user", name: "user", content: userQuery });
       gptResponse = await chat(history, gptFunctionDescriptors);
     } else {
