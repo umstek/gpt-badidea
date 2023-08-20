@@ -6,6 +6,59 @@ import config from "./config.js";
 
 import shellOriginal from "./shell.js";
 import getUserInputOriginal from "./user-io.js";
+import { browserInterface } from "./browser.js";
+
+const browserNavigateSchema = z
+  .function()
+  .args(z.object({ url: z.string() }))
+  .returns(z.promise(z.any()))
+  .describe("Navigate to a url in a stateful browser and get the response.");
+
+type BrowserNavigate = z.infer<typeof browserNavigateSchema>;
+
+const browserNavigate: BrowserNavigate = async ({ url }) => {
+  return browserInterface.navigate(url);
+};
+
+const browserClickSchema = z
+  .function()
+  .args(z.object({ selector: z.string() }))
+  .returns(z.promise(z.any()))
+  .describe("Click on a selector in a stateful browser and get the response.");
+
+type BrowserClick = z.infer<typeof browserClickSchema>;
+
+const browserClick: BrowserClick = async ({ selector }) => {
+  return browserInterface.click(selector);
+};
+
+const browserTypeSchema = z
+  .function()
+  .args(z.object({ selector: z.string(), text: z.string() }))
+  .returns(z.promise(z.any()))
+  .describe(
+    "Type text in a selector in a stateful browser and get the response.",
+  );
+
+type BrowserType = z.infer<typeof browserTypeSchema>;
+
+const browserType: BrowserType = async ({ selector, text }) => {
+  return browserInterface.type(selector, text);
+};
+
+const browserEvaluateSchema = z
+  .function()
+  .args(z.object({ expression: z.string() }))
+  .returns(z.promise(z.any()))
+  .describe(
+    "Evaluate any javascript expression in a stateful browser and get the response. ",
+  );
+
+type BrowserEvaluate = z.infer<typeof browserEvaluateSchema>;
+
+const browserEvaluate: BrowserEvaluate = async ({ expression }) => {
+  return browserInterface.evaluate(expression);
+};
 
 // Descriptions are important, they are how GPT knows what the functions do.
 
@@ -14,7 +67,7 @@ const shellSchema = z
   .args(z.object({ command: z.string() }))
   .returns(z.promise(z.string()))
   .describe(
-    `Execute any ${config.SHELL_TYPE} command in a stateful shell and get the response. Must wrap your command in {"command": "<command>"} json format and make sure they won't wait for user input.`
+    `Execute any ${config.SHELL_TYPE} command in a stateful shell and get the response. Must wrap your command in {"command": "<command>"} json format and make sure they won't wait for user input.`,
   );
 
 type Shell = z.infer<typeof shellSchema>;
@@ -25,14 +78,16 @@ const shell: Shell = async ({ command }) => {
 
 const getUserInputSchema = z
   .function()
-  .args(z.object({ question: z.string() }))
-  .returns(z.promise(z.string()))
-  .describe("Ask a question from the user");
+  .args(z.object({ message: z.string(), name: z.string(), type: z.string() }))
+  .returns(z.promise(z.any()))
+  .describe(
+    "Get user input. Uses enquirer under the hood so you can use many input types.",
+  );
 
 type GetUserInput = z.infer<typeof getUserInputSchema>;
 
-const getUserInput: GetUserInput = async ({ question }) => {
-  return getUserInputOriginal(question);
+const getUserInput: GetUserInput = async (prompt) => {
+  return getUserInputOriginal(prompt);
 };
 
 const unsafeEvalSchema = z
@@ -78,6 +133,10 @@ const functionDescriptors = [
   { schema: unsafeEvalSchema, implementation: unsafeEval },
   { schema: writeTextToFileSchema, implementation: writeTextToFile },
   { schema: readFromTextFileSchema, implementation: readFromTextFile },
+  { schema: browserNavigateSchema, implementation: browserNavigate },
+  { schema: browserClickSchema, implementation: browserClick },
+  { schema: browserTypeSchema, implementation: browserType },
+  { schema: browserEvaluateSchema, implementation: browserEvaluate },
 ];
 
 export const gptFunctionDescriptors = functionDescriptors.map(
@@ -85,7 +144,7 @@ export const gptFunctionDescriptors = functionDescriptors.map(
     name: implementation.name,
     description: schema.description,
     parameters: zodToJsonSchema(schema.parameters().items[0]),
-  })
+  }),
 );
 
 const functionMap = Object.fromEntries(
@@ -95,7 +154,7 @@ const functionMap = Object.fromEntries(
       paramsSchema: schema.parameters().items[0],
       implementation,
     },
-  ])
+  ]),
 );
 
 /**
@@ -117,3 +176,6 @@ export async function call(name: string, args: string): Promise<any> {
 
 export const PROMPT_ENFORCE_FUNCTIONS =
   "Only use the functions you have been provided with.";
+
+export const PROMPT_SHELL_STATE =
+  "State of the shell doesn't apply to other functions.";

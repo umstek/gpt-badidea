@@ -1,18 +1,9 @@
-import { createInterface } from "readline/promises";
+import enquirer from "enquirer";
 
-const ri = createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+const { prompt } = enquirer;
 
-/**
- * Asynchronously gets user input by asking a question.
- *
- * @param {string} question The question to ask the user.
- * @return {Promise<string>} A promise that resolves to the user's input as a string.
- */
-async function getUserInput(question: string): Promise<string> {
-  return await ri.question(question + "\n> ");
+async function getUserInput(questions: Parameters<typeof prompt>[0]) {
+  return await prompt(questions);
 }
 
 export default getUserInput;

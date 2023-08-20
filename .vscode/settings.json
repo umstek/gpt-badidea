@@ -1,10 +1,5 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": [
-    "openai"
-  ],
-  "conventionalCommits.scopes": [
-    "project",
-    "shell"
-  ]
+  "cSpell.words": ["openai"],
+  "conventionalCommits.scopes": ["project", "shell", "openai", "deps"]
 }
