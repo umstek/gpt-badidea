@@ -106,7 +106,7 @@ const writeTextToFileSchema = z
   .function()
   .args(z.object({ filename: z.string(), text: z.string() }))
   .returns(z.promise(z.void()))
-  .describe("Write a any text/string to a file");
+  .describe("Write text/string to a file; OVERWRITES file if already exists.");
 
 type WriteTextToFile = z.infer<typeof writeTextToFileSchema>;
 

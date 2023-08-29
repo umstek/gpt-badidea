@@ -5,9 +5,7 @@ export class BrowserInterface {
   context!: BrowserContext;
   page!: Page;
 
-  private constructor() {
-    this.init();
-  }
+  private constructor() {}
 
   private async init() {
     this.browser = await chromium.launch({ headless: false });
@@ -43,3 +41,4 @@ export class BrowserInterface {
 }
 
 export const browserInterface = await BrowserInterface.createInstance();
+  
