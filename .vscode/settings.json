@@ -6,6 +6,7 @@
     "shell",
     "openai",
     "deps",
-    "version"
+    "version",
+    "browser"
   ]
 }
