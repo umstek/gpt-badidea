@@ -1,4 +1,5 @@
 import { Browser, BrowserContext, chromium, Page } from "playwright";
+import config from "./config.js";
 
 export class BrowserInterface {
   browser!: Browser;
@@ -8,7 +9,7 @@ export class BrowserInterface {
   private constructor() {}
 
   private async init() {
-    this.browser = await chromium.launch({ headless: false });
+    this.browser = await chromium.launch({ headless: config.BROWSER_HEADLESS });
     this.context = await this.browser.newContext();
     this.page = await this.context.newPage();
   }
@@ -40,5 +41,6 @@ export class BrowserInterface {
   }
 }
 
-export const browserInterface = await BrowserInterface.createInstance();
-  
+export const browserInterface = config.BROWSER
+  ? await BrowserInterface.createInstance()
+  : undefined;
