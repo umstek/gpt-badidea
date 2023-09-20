@@ -12,6 +12,14 @@ const envSchema = z.object({
   OPENAI_CHAT_BASE_PROMPT: z.string().default(""),
   SHELL_TYPE: z.string().default("Bourne Shell (sh)"),
   SHELL_PATH: z.string().default("/usr/bin/sh"),
+  BROWSER: z
+    .enum(["true", "false"])
+    .transform((value) => value === "true")
+    .catch(false),
+  BROWSER_HEADLESS: z
+    .enum(["true", "false"])
+    .transform((value) => value === "true")
+    .catch(false),
 });
 
 const parsed = envSchema.safeParse(process.env);

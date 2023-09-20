@@ -17,7 +17,7 @@ const browserNavigateSchema = z
 type BrowserNavigate = z.infer<typeof browserNavigateSchema>;
 
 const browserNavigate: BrowserNavigate = async ({ url }) => {
-  return browserInterface.navigate(url);
+  return browserInterface?.navigate(url);
 };
 
 const browserClickSchema = z
@@ -29,7 +29,7 @@ const browserClickSchema = z
 type BrowserClick = z.infer<typeof browserClickSchema>;
 
 const browserClick: BrowserClick = async ({ selector }) => {
-  return browserInterface.click(selector);
+  return browserInterface?.click(selector);
 };
 
 const browserTypeSchema = z
@@ -43,7 +43,7 @@ const browserTypeSchema = z
 type BrowserType = z.infer<typeof browserTypeSchema>;
 
 const browserType: BrowserType = async ({ selector, text }) => {
-  return browserInterface.type(selector, text);
+  return browserInterface?.type(selector, text);
 };
 
 const browserEvaluateSchema = z
@@ -57,7 +57,7 @@ const browserEvaluateSchema = z
 type BrowserEvaluate = z.infer<typeof browserEvaluateSchema>;
 
 const browserEvaluate: BrowserEvaluate = async ({ expression }) => {
-  return browserInterface.evaluate(expression);
+  return browserInterface?.evaluate(expression);
 };
 
 // Descriptions are important, they are how GPT knows what the functions do.
@@ -128,20 +128,22 @@ export const readFromTextFile: ReadFromTextFile = async ({ filename }) => {
 };
 
 const functionDescriptors = [
-  { schema: shellSchema, implementation: shell },
-  { schema: getUserInputSchema, implementation: getUserInput },
-  { schema: unsafeEvalSchema, implementation: unsafeEval },
-  { schema: writeTextToFileSchema, implementation: writeTextToFile },
-  { schema: readFromTextFileSchema, implementation: readFromTextFile },
-  { schema: browserNavigateSchema, implementation: browserNavigate },
-  { schema: browserClickSchema, implementation: browserClick },
-  { schema: browserTypeSchema, implementation: browserType },
-  { schema: browserEvaluateSchema, implementation: browserEvaluate },
+  // Need to wrap functions inside objects so we can get the correct names.
+  // Otherwise, a compilation step may corrupt them.
+  { schema: shellSchema, implementation: { shell } },
+  { schema: getUserInputSchema, implementation: { getUserInput } },
+  { schema: unsafeEvalSchema, implementation: { unsafeEval } },
+  { schema: writeTextToFileSchema, implementation: { writeTextToFile } },
+  { schema: readFromTextFileSchema, implementation: { readFromTextFile } },
+  { schema: browserNavigateSchema, implementation: { browserNavigate } },
+  { schema: browserClickSchema, implementation: { browserClick } },
+  { schema: browserTypeSchema, implementation: { browserType } },
+  { schema: browserEvaluateSchema, implementation: { browserEvaluate } },
 ];
 
 export const gptFunctionDescriptors = functionDescriptors.map(
   ({ schema, implementation }) => ({
-    name: implementation.name,
+    name: Object.keys(implementation)[0] || "",
     description: schema.description,
     parameters: zodToJsonSchema(schema.parameters().items[0]),
   }),
@@ -149,10 +151,10 @@ export const gptFunctionDescriptors = functionDescriptors.map(
 
 const functionMap = Object.fromEntries(
   functionDescriptors.map(({ schema, implementation }) => [
-    implementation.name,
+    Object.keys(implementation)[0] || "",
     {
       paramsSchema: schema.parameters().items[0],
-      implementation,
+      implementation: Object.values(implementation)[0],
     },
   ]),
 );
