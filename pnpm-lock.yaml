@@ -15,8 +15,8 @@ dependencies:
     specifier: ^2.4.1
     version: 2.4.1
   langchain:
-    specifier: ^0.0.151
-    version: 0.0.151(playwright@1.38.0)
+    specifier: ^0.0.156
+    version: 0.0.156(playwright@1.38.0)
   nanoid:
     specifier: ^5.0.1
     version: 5.0.1
@@ -1216,8 +1216,8 @@ packages:
       json-buffer: 3.0.1
     dev: true
 
-  /langchain@0.0.151(playwright@1.38.0):
-    resolution: {integrity: sha512-RA7/ELK5dqUgv5glIP5Wm5JmbnrjH/eeROYdKGDGaDUNZrRJ2CLuEu+oJH7hcE5hpPoPlkLBCs/vz4hvr/YtYw==}
+  /langchain@0.0.156(playwright@1.38.0):
+    resolution: {integrity: sha512-mEaRqQdBPTMjI+FE0nmgynX8lY78SMvW+G0ChxqPARuoIXbz1QORvIz/BfpSbzjKkx/b5rEGocLcw1dAsr52YQ==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-crypto/sha256-js': ^5.0.0
@@ -1228,10 +1228,9 @@ packages:
       '@aws-sdk/client-sagemaker-runtime': ^3.310.0
       '@aws-sdk/client-sfn': ^3.310.0
       '@aws-sdk/credential-provider-node': ^3.388.0
-      '@aws-sdk/protocol-http': ^3.374.0
-      '@aws-sdk/signature-v4': ^3.374.0
       '@azure/storage-blob': ^12.15.0
       '@clickhouse/client': ^0.0.14
+      '@cloudflare/ai': ^1.0.12
       '@elastic/elasticsearch': ^8.4.0
       '@getmetal/metal-sdk': '*'
       '@getzep/zep-js': ^0.7.0
@@ -1247,6 +1246,8 @@ packages:
       '@qdrant/js-client-rest': ^1.2.0
       '@raycast/api': ^1.55.2
       '@smithy/eventstream-codec': ^2.0.5
+      '@smithy/protocol-http': ^3.0.6
+      '@smithy/signature-v4': ^2.0.10
       '@smithy/util-utf8': ^2.0.0
       '@supabase/postgrest-js': ^1.1.1
       '@supabase/supabase-js': ^2.10.0
@@ -1254,6 +1255,7 @@ packages:
       '@tensorflow/tfjs-converter': '*'
       '@tensorflow/tfjs-core': '*'
       '@upstash/redis': ^1.20.6
+      '@vercel/postgres': ^0.5.0
       '@writerai/writer-sdk': ^0.40.2
       '@xata.io/client': ^0.25.1
       '@xenova/transformers': ^2.5.4
@@ -1317,13 +1319,11 @@ packages:
         optional: true
       '@aws-sdk/credential-provider-node':
         optional: true
-      '@aws-sdk/protocol-http':
-        optional: true
-      '@aws-sdk/signature-v4':
-        optional: true
       '@azure/storage-blob':
         optional: true
       '@clickhouse/client':
+        optional: true
+      '@cloudflare/ai':
         optional: true
       '@elastic/elasticsearch':
         optional: true
@@ -1355,6 +1355,10 @@ packages:
         optional: true
       '@smithy/eventstream-codec':
         optional: true
+      '@smithy/protocol-http':
+        optional: true
+      '@smithy/signature-v4':
+        optional: true
       '@smithy/util-utf8':
         optional: true
       '@supabase/postgrest-js':
@@ -1368,6 +1372,8 @@ packages:
       '@tensorflow/tfjs-core':
         optional: true
       '@upstash/redis':
+        optional: true
+      '@vercel/postgres':
         optional: true
       '@writerai/writer-sdk':
         optional: true
