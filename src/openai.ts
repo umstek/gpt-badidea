@@ -13,19 +13,22 @@ const openai = new OpenAI({
 });
 
 /**
- * Gets a response from OpenAI
+ * Generates the function comment for the given function body.
  *
- * @param {Array.<OpenAI.Chat.CreateChatCompletionRequestMessage|OpenAI.Chat.Completions.ChatCompletionMessage>} history the chat history
- * @param {Array.<OpenAI.Chat.CompletionCreateParams.Function>|undefined} functions the functions
- * @return {Promise.<OpenAI.Chat.ChatCompletion.Choice>} the chat completion choice
+ * @param {(
+ *   | OpenAI.Chat.ChatCompletionMessageParam
+ *   | OpenAI.Chat.Completions.ChatCompletionMessage
+ * )[]} history - the chat history
+ * @param {OpenAI.Chat.ChatCompletionCreateParams.Function[] | undefined} functions - optional functions
+ * @return {Promise<OpenAI.Chat.ChatCompletion.Choice>} - a promise that resolves to the chat completion choice
  */
 export const chat = async (
   history: (
-    | OpenAI.Chat.CreateChatCompletionRequestMessage
+    | OpenAI.Chat.ChatCompletionMessageParam
     | OpenAI.Chat.Completions.ChatCompletionMessage
   )[] = [],
   functions:
-    | OpenAI.Chat.CompletionCreateParams.Function[]
+    | OpenAI.Chat.ChatCompletionCreateParams.Function[]
     | undefined = undefined,
 ): Promise<OpenAI.Chat.ChatCompletion.Choice> => {
   logger.debug({ history, functions });
@@ -41,6 +44,7 @@ export const chat = async (
 
       logger.debug({ completion: response.choices[0] });
       return response.choices[0];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       logger.warn({
         api: { status: error.response.status, data: error.response.data },
