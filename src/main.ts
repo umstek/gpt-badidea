@@ -53,7 +53,7 @@ async function main() {
             name,
             content: `👍
 
-${result}`,
+${JSON.stringify(result)}`,
           });
         } catch (error) {
           logger.info({ function: name, error });

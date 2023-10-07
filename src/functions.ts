@@ -2,9 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
-import config from "./config.js";
-
-import shellOriginal from "./shell.js";
+import { shell, shellSchema } from "./shell.js";
 import getUserInputOriginal from "./user-io.js";
 import { browserInterface } from "./browser.js";
 
@@ -61,20 +59,6 @@ const browserEvaluate: BrowserEvaluate = async ({ expression }) => {
 };
 
 // Descriptions are important, they are how GPT knows what the functions do.
-
-const shellSchema = z
-  .function()
-  .args(z.object({ command: z.string() }))
-  .returns(z.promise(z.string()))
-  .describe(
-    `Execute any ${config.SHELL_TYPE} command in a stateful shell and get the response. Must wrap your command in {"command": "<command>"} json format and make sure they won't wait for user input.`,
-  );
-
-type Shell = z.infer<typeof shellSchema>;
-
-const shell: Shell = async ({ command }) => {
-  return shellOriginal(command);
-};
 
 const getUserInputSchema = z
   .function()

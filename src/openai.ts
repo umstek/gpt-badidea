@@ -1,5 +1,5 @@
 import { setTimeout } from "node:timers/promises";
-import OpenAI from "openai";
+import { OpenAI } from "openai";
 
 import config from "./config.js";
 import parentLogger from "./logging.js";
