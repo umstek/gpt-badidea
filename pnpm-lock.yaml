@@ -41,8 +41,8 @@ dependencies:
 
 devDependencies:
   '@swc-node/register':
-    specifier: 1.6.7
-    version: 1.6.7(@swc/core@1.3.92)(typescript@5.2.2)
+    specifier: 1.6.8
+    version: 1.6.8(@swc/core@1.3.92)(typescript@5.2.2)
   '@swc/core':
     specifier: ^1.3.92
     version: 1.3.92
@@ -812,8 +812,8 @@ packages:
       '@swc/core': 1.3.92
     dev: true
 
-  /@swc-node/register@1.6.7(@swc/core@1.3.92)(typescript@5.2.2):
-    resolution: {integrity: sha512-+Tccbb4+fN8vYx88fdEGFbsCSnF0zBxbVhZkYkFAbVI7h6zVIgA3Jmlok4ZM+q+1KxzPN7AOfhQVuFOYBzZBeA==}
+  /@swc-node/register@1.6.8(@swc/core@1.3.92)(typescript@5.2.2):
+    resolution: {integrity: sha512-74ijy7J9CWr1Z88yO+ykXphV29giCrSpANQPQRooE0bObpkTO1g4RzQovIfbIaniBiGDDVsYwDoQ3FIrCE8HcQ==}
     peerDependencies:
       '@swc/core': '>= 1.3'
       typescript: '>= 4.3'
