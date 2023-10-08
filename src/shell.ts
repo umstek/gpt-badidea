@@ -102,3 +102,7 @@ export const shell: Shell = async ({ command }) => {
 
   return resultPromise;
 };
+
+export const cleanup = () => {
+  session?.kill();
+};
