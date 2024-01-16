@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@orama/orama':
-    specifier: ^1.2.10
-    version: 1.2.10
+    specifier: ^2.0.0
+    version: 2.0.0
   '@orama/plugin-data-persistence':
     specifier: ^1.2.10
     version: 1.2.10
@@ -175,6 +175,11 @@ packages:
 
   /@orama/orama@1.2.10:
     resolution: {integrity: sha512-B5L8/klWim9Mepc0suK3pG8NkEPRDUa/CfhXCISDHaEFLiTvJXDmB8Zr9A+fWnU+2vIJm0aTzv2LWMNms9qAiw==}
+    engines: {node: '>= 16.0.0'}
+    dev: false
+
+  /@orama/orama@2.0.0:
+    resolution: {integrity: sha512-Mg3cuIDSMmcQzu7ucLZRhLCzVwZN3+xGmeCNTyuzPUAXlrpF/g3MGUdFOc9ZX++S1Huu/hlxIpk4k8QY7rTr2g==}
     engines: {node: '>= 16.0.0'}
     dev: false
 
