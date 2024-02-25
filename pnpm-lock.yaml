@@ -10,7 +10,7 @@ dependencies:
     version: 1.2.10
   '@orama/plugin-data-persistence':
     specifier: ^1.2.10
-    version: 1.2.10
+    version: 1.2.11
   '@playwright/test':
     specifier: ^1.38.1
     version: 1.38.1
@@ -178,11 +178,16 @@ packages:
     engines: {node: '>= 16.0.0'}
     dev: false
 
-  /@orama/plugin-data-persistence@1.2.10:
-    resolution: {integrity: sha512-tVxHt03l8yrysROd1VS9tMk5R3Xdntn8BM/gorvzZZUZ5AFyUJTdqgdihVrOqbgxdhKBJbfNOoIZNj20zJp3ag==}
+  /@orama/orama@1.2.11:
+    resolution: {integrity: sha512-0yDcWgxOX0je18Z5dR64r4L3Jzm6bDNIpqM7qSu7H+9qhf6EsnlJbICrjt/oJ+WYnwiog4T0OXduVfLwAX+NVA==}
+    engines: {node: '>= 16.0.0'}
+    dev: false
+
+  /@orama/plugin-data-persistence@1.2.11:
+    resolution: {integrity: sha512-NTjJBRz4rH8HjADCeGsyM9LWZ4hWHaHGJaYulUyQuGP9P9Y4rM+vr1jcgnOrE94eYDGvGQb1gJma6Tg/1WfY+Q==}
     dependencies:
       '@msgpack/msgpack': 2.8.0
-      '@orama/orama': 1.2.10
+      '@orama/orama': 1.2.11
       dpack: 0.6.22
     dev: false
 
